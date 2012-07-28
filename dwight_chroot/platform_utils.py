@@ -23,7 +23,6 @@ def get_user_groups(uid):
     username = pw.pw_name
     primary_gid = pw.pw_gid
     gids = [primary_gid] + [g.gr_gid for g in grp.getgrall() if username in g.gr_mem]
-    print gids
     return gids
 
 def execute_command_assert_success(cmd, **kw):
