@@ -16,11 +16,14 @@ def get_current_user_shell():
 
 def get_user_groups(uid):
     try:
-        username = pwd.getpwuid(uid).pw_name
+        pw = pwd.getpwuid(uid)
     except KeyError:
         return []
 
-    gids = [g.gr_gid for g in grp.getgrall() if username in g.gr_mem]
+    username = pw.pw_name
+    primary_gid = pw.pw_gid
+    gids = [primary_gid] + [g.gr_gid for g in grp.getgrall() if username in g.gr_mem]
+    print gids
     return gids
 
 def execute_command_assert_success(cmd, **kw):
